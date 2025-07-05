@@ -1,8 +1,8 @@
-#include <BleConnectionStatus.h>
-#include <BLEDevice.h>
-#include <BLEUtils.h>
-#include <BLEScan.h>
-#include <BLEAdvertisedDevice.h>
+// #include <BleConnectionStatus.h>
+// #include <BLEDevice.h>
+// #include <BLEUtils.h>
+// #include <BLEScan.h>
+// #include <BLEAdvertisedDevice.h>
 
 #include <BleCombo.h>
 
@@ -17,12 +17,15 @@ void setup() {
 
   pinMode(JOY_X, INPUT);
   pinMode(JOY_Y, INPUT);
-  pinMode(JOY_SW, INPUT);
+  pinMode(JOY_SW, INPUT_PULLDOWN);
 
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
 
   Serial.begin(921600);
+
+  Keyboard.end();
+  Mouse.end();
   Serial.println("Starting device...");
   Keyboard.begin();
   Mouse.begin();
@@ -45,21 +48,28 @@ void joystick() {
   x_value = analogRead(JOY_X);
   y_value = analogRead(JOY_Y);
   Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
+
+  // Mouse or WASD - Choose ONE
   mouse();
   // wasd();
 }
 
+
 void mouse() {
+  int x = analogRead(JOY_X);
+  int y = analogRead(JOY_Y);
+  bool btn = digitalRead(PB) == HIGH;
+
   int dx = 0, dy = 0;
 
   if (x < 1600) dx = -5; // move left
   if (x > 2400) dx = 5; // move right
-  if (y < 1600) dy = -5; //move up
-  if (y > 2400) dy = 5; // move down
+  if (y < 3000) dy = -5; //move up
+  if (y > 3600) dy = 5; // move down
 
   if (dx != 0 || dy != 0) {
     Mouse.move(dx, dy, 0);  // move mouse
-    delay(20);
+    // delay(20);
   }
 
   if (digitalRead(JOY_SW) == 1) {
@@ -80,38 +90,38 @@ void wasd() {
 
   // --- Handle W (UP) ---
   if (y < 1600) {
-    if (!wPressed) { bleCombo.press('w'); wPressed = true; }
+    if (!wPressed) { Keyboard.press('w'); wPressed = true; }
   } else if (wPressed) {
-    bleCombo.release('w'); wPressed = false;
+    Keyboard.release('w'); wPressed = false;
   }
 
   // --- Handle S (DOWN) ---
   if (y > 2400) {
-    if (!sPressed) { bleCombo.press('s'); sPressed = true; }
+    if (!sPressed) { Keyboard.press('s'); sPressed = true; }
   } else if (sPressed) {
-    bleCombo.release('s'); sPressed = false;
+    Keyboard.release('s'); sPressed = false;
   }
 
   // --- Handle A (LEFT) ---
   if (x < 1600) {
-    if (!aPressed) { bleCombo.press('a'); aPressed = true; }
+    if (!aPressed) { Keyboard.press('a'); aPressed = true; }
   } else if (aPressed) {
-    bleCombo.release('a'); aPressed = false;
+    Keyboard.release('a'); aPressed = false;
   }
 
   // --- Handle D (RIGHT) ---
   if (x > 2400) {
-    if (!dPressed) { bleCombo.press('d'); dPressed = true; }
+    if (!dPressed) { Keyboard.press('d'); dPressed = true; }
   } else if (dPressed) {
-    bleCombo.release('d'); dPressed = false;
+    Keyboard.release('d'); dPressed = false;
   }
 
   // --- Handle SPACEBAR button ---
   if (btn && !spacePressed) {
-    bleCombo.press(' ');
+    Keyboard.press(' ');
     spacePressed = true;
   } else if (!btn && spacePressed) {
-    bleCombo.release(' ');
+    Keyboard.release(' ');
     spacePressed = false;
   }
 
