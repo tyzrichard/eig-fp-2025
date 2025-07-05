@@ -38,10 +38,9 @@ void setup() {
 }
 
 void loop() {
-  // Serial.print("PB1 status - ");
-  // Serial.println(digitalRead(PB1));
+  Serial.print("PB1 status - ");
+  Serial.println(digitalRead(PB1));
   pushbutton();
-  // laser();
   joystick();               
 }
 
@@ -50,62 +49,6 @@ void pushbutton() {
     bleKeyboard.write(KEY_MEDIA_LOCAL_MACHINE_BROWSER);
   }
 }
-
-// void laser() {
-//   static unsigned long lastPressTime = 0;
-//   static bool ledState = false;                  // Persistent laser state
-//   static bool buttonPreviouslyPressed = false;
-//   static bool waitingForSecondClick = false;
-//   static bool holdActive = false;
-
-//   bool buttonPressed = digitalRead(PB1) == HIGH;
-//   unsigned long currentTime = millis();
-
-//   // Detect rising edge (button just pressed)
-//   if (buttonPressed && !buttonPreviouslyPressed) {
-//     if (waitingForSecondClick && (currentTime - lastPressTime <= 400)) {
-//       // Double click detected
-//       ledState = !ledState;
-//       waitingForSecondClick = false;
-//     } else {
-//       // First click
-//       waitingForSecondClick = true;
-//       lastPressTime = currentTime;
-//     }
-//   }
-
-//   // If button is held down (press-and-hold), and laser is not toggled on
-//   if (buttonPressed && !ledState) {
-//     holdActive = true;
-//   }
-
-//   // If button is released, disable temporary hold
-//   if (!buttonPressed && buttonPreviouslyPressed) {
-//     holdActive = false;
-//   }
-
-//   // Cancel waiting for double-click if timeout exceeded
-//   if (waitingForSecondClick && (currentTime - lastPressTime > 400)) {
-//     waitingForSecondClick = false;
-//   }
-
-//   // Decide whether to turn on laser
-//   if (ledState || holdActive) {
-//     digitalWrite(LED1, HIGH);
-//   } else {
-//     digitalWrite(LED1, LOW);
-//   }
-
-//   // Update previous state
-//   buttonPreviouslyPressed = buttonPressed;
-
-//   // Debug output
-//   Serial.print("ledState (toggled): ");
-//   Serial.println(ledState);
-//   Serial.print("holdActive (temporary): ");
-//   Serial.println(holdActive);
-// }
-
 
 void joystick() {
   x_value = analogRead(JOY_X);
@@ -134,8 +77,4 @@ void tetris() {
   if (digitalRead(JOY_SW) == 1) {
     bleKeyboard.write(' ');
   }
-}
-
-void mouse() {
-  // No this doesn't work yet
 }
