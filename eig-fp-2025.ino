@@ -38,15 +38,15 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("PB1 status - ");
-  Serial.println(digitalRead(PB1));
+  Serial.print("Pushbutton status - ");
+  Serial.println(digitalRead(PB));
   pushbutton();
   joystick();               
 }
 
 void pushbutton() {
   if (digitalRead(PB)) {
-    bleKeyboard.write(KEY_MEDIA_LOCAL_MACHINE_BROWSER);
+    bleKeyboard.print("Hello world!");
   }
 }
 
@@ -59,22 +59,22 @@ void joystick() {
 
 void tetris() {
   if (x_value < 1400) {
-    bleKeyboard.write('a');
+    bleMouse.move(-5, 0); // move left
   } else if (x_value > 2000) {
-    bleMouse.move();
+    bleMouse.move(5, 0); // move right
   } else {
     bleMouse.stop();
   }
 
   if (y_value < 1400) {
-    bleKeyboard.write(KEY_MEDIA_VOLUME_UP);
+    bleMouse.move(0, 5); // move up
   } else if (y_value > 2000) {
-    bleKeyboard.write(KEY_MEDIA_VOLUME_DOWN);
+    bleMouse.move(0, -5); // move down
   } else {
-    bleKeyboard.releaseAll();
+    bleMouse.stop();
   }         
 
   if (digitalRead(JOY_SW) == 1) {
-    bleKeyboard.write(' ');
+    bleMouse.click(); //clicks left button
   }
 }
