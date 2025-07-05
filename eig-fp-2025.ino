@@ -6,15 +6,13 @@
 
 #include <BleCombo.h>
 
-int PB = 14;        // Change
+int PB = 14;   // Change
 int JOY_X = 4, JOY_Y = 0, JOY_SW = 34;  // Change
 int x_value, y_value;                     // Change
 
-// BleKeyboard bleKeyboard("Klickr 9000", "eig", 100);
-// BleMouse bleMouse;
+// "Klickr 9000."
 
 void setup() {
-
   pinMode(PB, INPUT_PULLDOWN);
 
   pinMode(JOY_X, INPUT);
@@ -33,7 +31,7 @@ void setup() {
 void loop() {
   Serial.print("Pushbutton status - ");
   Serial.println(digitalRead(PB));
-  pushbutton();
+  pushbutton(); // comment out if using wasd
   joystick();               
 }
 
@@ -51,25 +49,13 @@ void joystick() {
   // wasd();
 }
 
-void wasd() {
-  //havent figured out the release portion, i might rework this part ngl
-  if (x < 1400) Keyboard.press("a"); // move left
-  if (x > 2700) Keyboard.press("d"); // move right
-  if (y < 1400) Keyboard.press("w"); //move up
-  if (y > 2700) Keyboard.press("s"); // move down
-
-  if (digitalRead(JOY_SW) == 1) {
-    Keyboard.press(KEY_SPACEBAR);
-  }
-}
-
 void mouse() {
   int dx = 0, dy = 0;
 
-  if (x < 1400) dx = -5; // move left
-  if (x > 2700) dx = 5; // move right
-  if (y < 1400) dy = -5; //move up
-  if (y > 2700) dy = 5; // move down
+  if (x < 1600) dx = -5; // move left
+  if (x > 2400) dx = 5; // move right
+  if (y < 1600) dy = -5; //move up
+  if (y > 2400) dy = 5; // move down
 
   if (dx != 0 || dy != 0) {
     Mouse.move(dx, dy, 0);  // move mouse
@@ -79,4 +65,55 @@ void mouse() {
   if (digitalRead(JOY_SW) == 1) {
     Mouse.click(); // clicks left button
   }
+}
+
+bool wPressed = false;
+bool aPressed = false;
+bool sPressed = false;
+bool dPressed = false;
+bool spacePressed = false;
+
+void wasd() {
+  int x = analogRead(JOY_X);
+  int y = analogRead(JOY_Y);
+  bool btn = digitalRead(PB) == HIGH;
+
+  // --- Handle W (UP) ---
+  if (y < 1600) {
+    if (!wPressed) { bleCombo.press('w'); wPressed = true; }
+  } else if (wPressed) {
+    bleCombo.release('w'); wPressed = false;
+  }
+
+  // --- Handle S (DOWN) ---
+  if (y > 2400) {
+    if (!sPressed) { bleCombo.press('s'); sPressed = true; }
+  } else if (sPressed) {
+    bleCombo.release('s'); sPressed = false;
+  }
+
+  // --- Handle A (LEFT) ---
+  if (x < 1600) {
+    if (!aPressed) { bleCombo.press('a'); aPressed = true; }
+  } else if (aPressed) {
+    bleCombo.release('a'); aPressed = false;
+  }
+
+  // --- Handle D (RIGHT) ---
+  if (x > 2400) {
+    if (!dPressed) { bleCombo.press('d'); dPressed = true; }
+  } else if (dPressed) {
+    bleCombo.release('d'); dPressed = false;
+  }
+
+  // --- Handle SPACEBAR button ---
+  if (btn && !spacePressed) {
+    bleCombo.press(' ');
+    spacePressed = true;
+  } else if (!btn && spacePressed) {
+    bleCombo.release(' ');
+    spacePressed = false;
+  }
+
+  delay(10); // debounce/polling delay
 }
