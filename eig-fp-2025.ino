@@ -1,8 +1,3 @@
-// #include <BleConnectionStatus.h>
-// #include <BLEDevice.h>
-// #include <BLEUtils.h>
-// #include <BLEScan.h>
-// #include <BLEAdvertisedDevice.h>
 
 #include <BleCombo.h>
 
@@ -50,10 +45,11 @@ void joystick() {
   Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
 
   // Mouse or WASD - Choose ONE
-  mouse();
-  // wasd();
+  // mouse();
+  wasd();
 }
 
+int x_left_trigger = 1600, x_right_trigger = 2400, y_top_trigger = 3000, y_bottom_trigger = 3600; // Joystick trigger boundaries
 
 void mouse() {
   int x = analogRead(JOY_X);
@@ -62,10 +58,10 @@ void mouse() {
 
   int dx = 0, dy = 0;
 
-  if (x < 1600) dx = -5; // move left
-  if (x > 2400) dx = 5; // move right
-  if (y < 3000) dy = -5; //move up
-  if (y > 3600) dy = 5; // move down
+  if (x < x_left_trigger) dx = -5; // move left
+  if (x > x_right_trigger) dx = 5; // move right
+  if (y < y_top_trigger) dy = -5; //move up
+  if (y > y_bottom_trigger) dy = 5; // move down
 
   if (dx != 0 || dy != 0) {
     Mouse.move(dx, dy, 0);  // move mouse
@@ -89,28 +85,28 @@ void wasd() {
   bool btn = digitalRead(PB) == HIGH;
 
   // --- Handle W (UP) ---
-  if (y < 1600) {
+  if (y < y_top_trigger) {
     if (!wPressed) { Keyboard.press('w'); wPressed = true; }
   } else if (wPressed) {
     Keyboard.release('w'); wPressed = false;
   }
 
   // --- Handle S (DOWN) ---
-  if (y > 2400) {
+  if (y > y_bottom_trigger) {
     if (!sPressed) { Keyboard.press('s'); sPressed = true; }
   } else if (sPressed) {
     Keyboard.release('s'); sPressed = false;
   }
 
   // --- Handle A (LEFT) ---
-  if (x < 1600) {
+  if (x < x_left_trigger) {
     if (!aPressed) { Keyboard.press('a'); aPressed = true; }
   } else if (aPressed) {
     Keyboard.release('a'); aPressed = false;
   }
 
   // --- Handle D (RIGHT) ---
-  if (x > 2400) {
+  if (x > x_right_trigger) {
     if (!dPressed) { Keyboard.press('d'); dPressed = true; }
   } else if (dPressed) {
     Keyboard.release('d'); dPressed = false;
