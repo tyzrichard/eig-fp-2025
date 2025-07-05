@@ -12,8 +12,8 @@ int JOY_X = 4, JOY_Y = 0, JOY_SW = 34;  // Change
 int x_value, y_value;                     // Change
 int LED_status = 0;
 
-BleKeyboard bleKeyboard;
-BleMouse bleMouse;
+BleKeyboard bleKeyboard("Klickr 9000", "eig", 100);
+// BleMouse bleMouse;
 
 void setup() {
 
@@ -30,11 +30,11 @@ void setup() {
 
   Serial.begin(921600);
   Serial.println("Starting device...");
-
+  bleKeyboard.end();
   bleKeyboard.begin();
   Serial.println("BLE Keyboard Started!");
-  bleMouse.begin();
-  Serial.println("BLE Mouse Started!");
+  // bleMouse.begin();
+  // Serial.println("BLE Mouse Started!");
 }
 
 void loop() {
@@ -57,13 +57,28 @@ void joystick() {
   tetris();
 }
 
-void tetris() {
+void car() {
+  if (x_value < 1400) {
+  } else if (x_value > 2000) {
+  } else {
+  }
+
+  if (y_value < 1400) {
+  } else if (y_value > 2000) {
+  } else {
+  }         
+
+  if (digitalRead(JOY_SW) == 1) {
+  }
+}
+
+void mouse() {
   if (x_value < 1400) {
     bleMouse.move(-5, 0); // move left
   } else if (x_value > 2000) {
     bleMouse.move(5, 0); // move right
   } else {
-    bleMouse.stop();
+    bleMouse.end();
   }
 
   if (y_value < 1400) {
@@ -71,7 +86,7 @@ void tetris() {
   } else if (y_value > 2000) {
     bleMouse.move(0, -5); // move down
   } else {
-    bleMouse.stop();
+    bleMouse.end();
   }         
 
   if (digitalRead(JOY_SW) == 1) {
