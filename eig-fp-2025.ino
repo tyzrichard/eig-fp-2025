@@ -4,15 +4,16 @@
 #include <BLEScan.h>
 #include <BLEAdvertisedDevice.h>
 
-#include <BleKeyboard.h>
-#include <BleMouse.h>
+// #include <BleKeyboard.h>
+// #include <BleMouse.h>
+#include <BleCombo.h>
 
 int PB = 14, LED1 = 27;        // Change
 int JOY_X = 4, JOY_Y = 0, JOY_SW = 34;  // Change
 int x_value, y_value;                     // Change
 int LED_status = 0;
 
-BleKeyboard bleKeyboard("Klickr 9000", "eig", 100);
+// BleKeyboard bleKeyboard("Klickr 9000", "eig", 100);
 // BleMouse bleMouse;
 
 void setup() {
@@ -30,10 +31,12 @@ void setup() {
 
   Serial.begin(921600);
   Serial.println("Starting device...");
-  bleKeyboard.end();
-  bleKeyboard.begin();
-  Serial.println("BLE Keyboard Started!");
-  // bleMouse.begin();
+  Keyboard.begin();
+  Mouse.begin();
+  // bleKeyboard.end();
+  // bleKeyboard.begin();
+  // Serial.println("BLE Keyboard Started!");
+  // // bleMouse.begin();
   // Serial.println("BLE Mouse Started!");
 }
 
@@ -46,7 +49,7 @@ void loop() {
 
 void pushbutton() {
   if (digitalRead(PB)) {
-    bleKeyboard.print("Hello world!");
+    Keyboard.print("Hello world!");
   }
 }
 
@@ -54,42 +57,48 @@ void joystick() {
   x_value = analogRead(JOY_X);
   y_value = analogRead(JOY_Y);
   Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
-  tetris();
+  mouse();
+  // wasd();
 }
 
-void car() {
-  if (x_value < 1400) {
-  } else if (x_value > 2000) {
-  } else {
-  }
-
-  if (y_value < 1400) {
-  } else if (y_value > 2000) {
-  } else {
-  }         
+void wasd() {
+  //havent figured out the release portion, i might rework this part ngl
+  if (x < 1400) Keyboard.press("a"); // move left
+  if (x > 2700) Keyboard.press("d"); // move right
+  if (y < 1400) Keyboard.press("w"); //move up
+  if (y > 2700) Keyboard.press("s"); // move down
 
   if (digitalRead(JOY_SW) == 1) {
+    Keyboard.press(KEY_SPACEBAR);
   }
 }
 
 void mouse() {
-  if (x_value < 1400) {
-    bleMouse.move(-5, 0); // move left
-  } else if (x_value > 2000) {
-    bleMouse.move(5, 0); // move right
-  } else {
-    bleMouse.end();
-  }
+  int dx = 0, dy = 0;
 
-  if (y_value < 1400) {
-    bleMouse.move(0, 5); // move up
-  } else if (y_value > 2000) {
-    bleMouse.move(0, -5); // move down
-  } else {
-    bleMouse.end();
-  }         
+  if (x < 1400) dx = -5; // move left
+  if (x > 2700) dx = 5; // move right
+  if (y < 1400) dy = -5; //move up
+  if (y > 2700) dy = 5; // move down
+
+  if (dx != 0 || dy != 0) {
+    bleCombo.move(dx, dy, 0);  // move mouse
+    delay(20);
+  }
 
   if (digitalRead(JOY_SW) == 1) {
-    bleMouse.click(); //clicks left button
+    Mouse.click(); //clicks left button
   }
+
+  // if (x_value < 1400) {
+  //   Mouse.move(-5, 0); // move left
+  // } else if (x_value > 2000) {
+  //   Mouse.move(5, 0); // move right
+  // }
+
+  // if (y_value < 1400) {
+  //   Mouse.move(0, -5); // move up
+  // } else if (y_value > 2000) {
+  //   Mouse.move(0, 5); // move down
+  // }    
 }
