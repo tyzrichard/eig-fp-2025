@@ -23,7 +23,7 @@ It's a valuable hands-on experience that can enrich your portfolio!
 
    **Installation Steps**
    
-   a. Download the folders as a zip file
+   a. Download the folders in [ESP32-BLE-Combo](https://github.com/ethanetexplorer/ESP32-BLE-Combo) as a zip file
    
    b. In Arduino IDE, go to the top menu bar, and add the library by Sketch -> Include Library -> Add .ZIP library
 
