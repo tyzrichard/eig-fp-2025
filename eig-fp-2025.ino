@@ -25,17 +25,22 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
   digitalWrite(LED_BUILTIN, HIGH);
-  initDevice("EIG KLICKR 9000", "richard");
+
+  String deviceName = "Klickr 9000 Pro";
+  String manufacturer = "richard";
+
+  initDevice(deviceName, manufacturer);
   Serial.begin(921600);
 }
 
 void loop() {
-
   if (Keyboard.isConnected()) {
     pushbutton();
     joystick();
   } else {
-    initDevice();
+    Serial.println("Disconnected");
+    delay(1000);
+  initDevice(deviceName, manufacturer);
   }
 }
 
