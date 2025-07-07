@@ -40,7 +40,7 @@ void loop() {
   } else {
     Serial.println("Disconnected");
     delay(1000);
-  initDevice(deviceName, manufacturer);
+    initDevice(deviceName, manufacturer);
   }
 }
 
