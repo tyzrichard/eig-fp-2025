@@ -17,6 +17,9 @@ int last_PB_State = LOW;
 unsigned long lastPBDebounceTime = 0;
 unsigned long debounceDelay = 50;  // 50 ms debounce delay
 
+String deviceName = "Klickr 9000 Pro";
+String manufacturer = "richard";
+
 void setup() {
   pinMode(PB, INPUT_PULLDOWN);
   pinMode(JOY_X, INPUT);
@@ -26,8 +29,6 @@ void setup() {
 
   digitalWrite(LED_BUILTIN, HIGH);
 
-  String deviceName = "Klickr 9000 Pro";
-  String manufacturer = "richard";
 
   initDevice(deviceName, manufacturer);
   Serial.begin(921600);
