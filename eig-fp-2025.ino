@@ -5,10 +5,10 @@ const int PB = 14;
 const int JOY_X = 4, JOY_Y = 0, JOY_SW = 34;
 
 
-const int x_left_trigger = 300,
-          x_right_trigger = 3800,
-          y_top_trigger = 300,
-          y_bottom_trigger = 3800;  // Joystick trigger boundaries
+const int x_left_trigger = 1750,
+          x_right_trigger = 2100,
+          y_top_trigger = 3100,
+          y_bottom_trigger = 3500;  // Joystick trigger boundaries
 int JOY_SW_State = LOW;
 int last_JOY_SW_State = LOW;
 unsigned long lastJOYDebounceTime = 0;
@@ -30,8 +30,13 @@ void setup() {
 }
 
 void loop() {
-  pushbutton();
-  joystick();
+
+  if (Keyboard.isConnected()) {
+    pushbutton();
+    joystick();
+  } else {
+    initDevice();
+  }
 }
 
 void pushbutton() {
@@ -46,7 +51,7 @@ void pushbutton() {
       PB_State = reading;
 
       if (PB_State == HIGH) {
-        Keyboard.print("Hello world!"); // Assignable macro
+        Keyboard.print("Hello world!");  // Assignable macro
       }
     }
   }
@@ -184,4 +189,3 @@ void initDevice(String deviceName, String deviceManufacturer) {
   if (Keyboard.isConnected())
     Serial.println("Connected");
 }
-
