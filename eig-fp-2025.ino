@@ -103,7 +103,7 @@ void mouse() {
       JOY_SW_State = reading;
 
       if (JOY_SW_State == HIGH) {
-        Mouse.click();
+        Mouse.click(MOUSE_LEFT);
       }
     }
   }
