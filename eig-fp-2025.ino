@@ -5,6 +5,13 @@ int PB = 14;   // Change
 int JOY_X = 15, JOY_Y = 4, JOY_SW = 34;  // Change
 int x_value, y_value;                     // Change
 
+int JOY_SW_State = LOW;
+int last_JOY_SW_State = LOW;
+unsigned long lastJOYDebounceTime = 0;
+int PB_State = LOW;
+int last_PB_State = LOW;
+unsigned long lastPBDebounceTime = 0;
+unsigned long debounceDelay = 50;  // 50 ms debounce delay
 // "Klickr 9000."
 
 void setup() {
@@ -34,9 +41,23 @@ void loop() {
 }
 
 void pushbutton() {
-  if (digitalRead(PB)) {
-    Keyboard.print("Hello world!");
+  int reading = digitalRead(PB);
+
+  if (reading != last_PB_State) {
+    lastJOYDebounceTime = millis();  // reset the timer
   }
+
+  if ((millis() - lastPBDebounceTime) > debounceDelay) {
+    if (reading != PB_State) {
+      PB_State = reading;
+
+      if (PB_State == HIGH) {
+        Keyboard.print("Hello world!");
+      }
+    }
+  }
+
+  last_PB_State = reading;
 }
 
 void joystick() {
@@ -68,9 +89,23 @@ void mouse() {
     // delay(20);
   }
 
-  if (digitalRead(JOY_SW) == 1) {
-    Mouse.click(); // clicks left button
+  int reading = digitalRead(JOY_SW);
+
+  if (reading != last_JOY_SW_State) {
+    lastJOYDebounceTime = millis();  // reset the timer
   }
+
+  if ((millis() - lastJOYDebounceTime) > debounceDelay) {
+    if (reading != JOY_SW_State) {
+      JOY_SW_State = reading;
+
+      if (JOY_SW_State == HIGH) {
+        Mouse.click();
+      }
+    }
+  }
+
+  last_JOY_SW_State = reading;
 }
 
 bool wPressed = false;
