@@ -2,7 +2,7 @@
 #include <BleCombo.h>
 
 int PB = 14;   // Change
-int JOY_X = 4, JOY_Y = 0, JOY_SW = 34;  // Change
+int JOY_X = 15, JOY_Y = 4, JOY_SW = 34;  // Change
 int x_value, y_value;                     // Change
 
 // "Klickr 9000."
@@ -45,11 +45,11 @@ void joystick() {
   Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
 
   // Mouse or WASD - Choose ONE
-  // mouse();
-  wasd();
+  mouse();
+  //wasd();
 }
 
-int x_left_trigger = 1600, x_right_trigger = 2400, y_top_trigger = 3000, y_bottom_trigger = 3600; // Joystick trigger boundaries
+int x_left_trigger = 300, x_right_trigger = 3800, y_top_trigger = 300, y_bottom_trigger = 3800; // Joystick trigger boundaries
 
 void mouse() {
   int x = analogRead(JOY_X);
@@ -58,10 +58,10 @@ void mouse() {
 
   int dx = 0, dy = 0;
 
-  if (x < x_left_trigger) dx = -5; // move left
-  if (x > x_right_trigger) dx = 5; // move right
-  if (y < y_top_trigger) dy = -5; //move up
-  if (y > y_bottom_trigger) dy = 5; // move down
+  if (x < x_left_trigger) dx = -1; // move left
+  if (x > x_right_trigger) dx = 1; // move right
+  if (y < y_top_trigger) dy = -1; //move up
+  if (y > y_bottom_trigger) dy = 1; // move down
 
   if (dx != 0 || dy != 0) {
     Mouse.move(dx, dy, 0);  // move mouse
