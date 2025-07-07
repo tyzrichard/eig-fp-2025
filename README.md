@@ -9,7 +9,9 @@ With no prior experience needed, you too are able to build a laser pointer/game 
 It's a valuable hands-on experience that can enrich your portfolio!
 
 📍 Venue: ESC #08-03-02
+
 🕠 Time: 4:30PM–7:00PM on 17, 24 and 31 July
+
 🎯 Open to all SOE students & EIG members
 
 ## Pre-Installation
