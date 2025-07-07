@@ -1,7 +1,7 @@
 #include <BleCombo.h>
 
 int PB = 14;   // Change
-int JOY_X = 33, JOY_Y = 4, JOY_SW = 34;  // Change
+int JOY_X = 33, JOY_Y = 4, JOY_SW = 25;  // Change
 int x_value, y_value;                     // Change
 
 // VCC laser, pb, joystick
@@ -22,7 +22,7 @@ void setup() {
 
   pinMode(JOY_X, INPUT);
   pinMode(JOY_Y, INPUT);
-  pinMode(JOY_SW, INPUT_PULLDOWN);
+  pinMode(JOY_SW, INPUT_PULLUP);
 
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
@@ -37,8 +37,8 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("Pushbutton status - ");
-  Serial.println(digitalRead(PB));
+  // Serial.print("Pushbutton status - ");
+  // Serial.println(digitalRead(PB));
   pushbutton(); // comment out if using wasd
   joystick();               
 }
@@ -47,7 +47,7 @@ void pushbutton() {
   int reading = digitalRead(PB);
 
   if (reading != last_PB_State) {
-    lastJOYDebounceTime = millis();  // reset the timer
+    lastPBDebounceTime = millis();  // reset the timer
   }
 
   if ((millis() - lastPBDebounceTime) > debounceDelay) {
@@ -55,7 +55,7 @@ void pushbutton() {
       PB_State = reading;
 
       if (PB_State == HIGH) {
-        Keyboard.print("Hello world!");
+        Keyboard.write(KEY_ESC);
       }
     }
   }
@@ -64,32 +64,29 @@ void pushbutton() {
 }
 
 void joystick() {
-  x_value = analogRead(JOY_X);
-  y_value = analogRead(JOY_Y);
-  Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
+  y_value = analogRead(JOY_X);
+  x_value = analogRead(JOY_Y);
+  // Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
 
   // Mouse or WASD - Choose ONE
-  mouse();
-  //wasd();
+  mouse(x_value, y_value);
+  //wasd(x_value, y_value);
 }
 
-int x_left_trigger = 300, x_right_trigger = 3800, y_top_trigger = 300, y_bottom_trigger = 3800; // Joystick trigger boundaries
+int top_trigger = 3800, bottom_trigger = 300; // Joystick trigger boundaries
 
-void mouse() {
-  int x = analogRead(JOY_X);
-  int y = analogRead(JOY_Y);
+void mouse(int x, int y) {
   bool btn = digitalRead(PB) == HIGH;
 
   int dx = 0, dy = 0;
 
-  if (x < x_left_trigger) dx = -1; // move left
-  if (x > x_right_trigger) dx = 1; // move right
-  if (y < y_top_trigger) dy = -1; //move up
-  if (y > y_bottom_trigger) dy = 1; // move down
+  if (x < bottom_trigger) dx = -1; // move left
+  if (x > top_trigger) dx = 1; // move right
+  if (y > top_trigger) dy = -1; //move up
+  if (y < bottom_trigger) dy = 1; // move down
 
   if (dx != 0 || dy != 0) {
     Mouse.move(dx, dy, 0);  // move mouse
-    // delay(20);
   }
 
   int reading = digitalRead(JOY_SW);
@@ -117,34 +114,32 @@ bool sPressed = false;
 bool dPressed = false;
 bool spacePressed = false;
 
-void wasd() {
-  int x = analogRead(JOY_X);
-  int y = analogRead(JOY_Y);
+void wasd(int x, int y) {
   bool btn = digitalRead(PB) == HIGH;
 
   // --- Handle W (UP) ---
-  if (y < y_top_trigger) {
+  if (y < top_trigger) {
     if (!wPressed) { Keyboard.press('w'); wPressed = true; }
   } else if (wPressed) {
     Keyboard.release('w'); wPressed = false;
   }
 
   // --- Handle S (DOWN) ---
-  if (y > y_bottom_trigger) {
+  if (y > bottom_trigger) {
     if (!sPressed) { Keyboard.press('s'); sPressed = true; }
   } else if (sPressed) {
     Keyboard.release('s'); sPressed = false;
   }
 
   // --- Handle A (LEFT) ---
-  if (x < x_left_trigger) {
+  if (x < bottom_trigger) {
     if (!aPressed) { Keyboard.press('a'); aPressed = true; }
   } else if (aPressed) {
     Keyboard.release('a'); aPressed = false;
   }
 
   // --- Handle D (RIGHT) ---
-  if (x > x_right_trigger) {
+  if (x > top_trigger) {
     if (!dPressed) { Keyboard.press('d'); dPressed = true; }
   } else if (dPressed) {
     Keyboard.release('d'); dPressed = false;
