@@ -9,17 +9,24 @@ With no prior experience needed, you too are able to build a laser pointer/game 
 It's a valuable hands-on experience that can enrich your portfolio!
 
 📍 Venue: ESC #08-03-02
+
 🕠 Time: 4:30PM–7:00PM on 17, 24 and 31 July
+
 🎯 Open to all SOE students & EIG members
 
 ## Pre-Installation
 1. [CP210x USB to UART Bridge VCP Drivers](https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads)
  - This is needed so that you can easily upload code onto your ESP32.  
 2. [ESP32-BLE-Combo](https://github.com/ethanetexplorer/ESP32-BLE-Combo)
-   a. Download the folders as a zip file
+   
+ - This library contains all the keyboard and mouse related functions that you will need for this workshop.
+
+   **Installation Steps**
+   
+   a. Download the folders in [ESP32-BLE-Combo](https://github.com/ethanetexplorer/ESP32-BLE-Combo) as a zip file
+   
    b. In Arduino IDE, go to the top menu bar, and add the library by Sketch -> Include Library -> Add .ZIP library
 
-   - This library contains all the keyboard and mouse related functions that you will need for this workshop./
 
 **Most importantly**, you need the [Arduino IDE](https://www.arduino.cc/en/software/). Make sure to download the correct version for your operating system!
 - For Windows, please choose the (Windows 10 or newer, 64 bits) version.
