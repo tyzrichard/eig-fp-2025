@@ -39,7 +39,7 @@ void setup() {
 void loop() {
   // Serial.print("Pushbutton status - ");
   // Serial.println(digitalRead(PB));
-  // pushbutton(); // comment out if using wasd
+  pushbutton(); // comment out if using wasd
   joystick();               
 }
 
@@ -54,7 +54,8 @@ void pushbutton() {
     if (reading != PB_State) {
       PB_State = reading;
       if (PB_State == HIGH) {
-        Keyboard.write(KEY_ESC);
+        // Keyboard.write(KEY_ESC);
+        Keyboard.write(' ');
       }
     }
   }
@@ -158,12 +159,6 @@ void wasd(int x, int y) {
     dPressed = false;
   }
 
-   // --- Handle SPACEBAR button ---
-  if (btn) {
-    Keyboard.write(' ');
-    delay(10);
-  }
-
   // --- Handle Joystick button ---
   int reading = digitalRead(JOY_SW);
 
@@ -181,7 +176,6 @@ void wasd(int x, int y) {
       }
     }
   }
-
   last_JOY_SW_State = reading;
 
   delay(20); // debounce/polling delay
