@@ -54,8 +54,8 @@ void pushbutton() {
     if (reading != PB_State) {
       PB_State = reading;
       if (PB_State == HIGH) {
-        // Keyboard.write(KEY_ESC);
-        Keyboard.write(' ');
+        Keyboard.write(KEY_ESC);
+        // Keyboard.write(' ');
       }
     }
   }
@@ -66,27 +66,32 @@ void pushbutton() {
 void joystick() {
   y_value = analogRead(JOY_X);
   x_value = analogRead(JOY_Y);
-  // Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
+  Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
 
   // Mouse or WASD - Choose ONE
-  //mouse(x_value, y_value);
-  wasd(x_value, y_value);
+  mouse(x_value, y_value);
+  // wasd(x_value, y_value);
 }
 
-int top_trigger = 3800, bottom_trigger = 300; // Joystick trigger boundaries
+// Joystick boundaries
+int top_trigger = 3800;
+int bottom_trigger = 300; 
+const int x_center = 1770; // tweak accordingly
+const int y_center = 1700; // tweak accordingly
+const int deadZone = 500;
+const float scale = 0.001; // tweak accordingly
 
 void mouse(int x, int y) {
-  bool btn = digitalRead(PB) == HIGH;
+  int deflectionX = x - x_center;
+  int deflectionY = y_center - y;
 
-  int dx = 0, dy = 0;
+  int dx = deflectionX * scale;
+  int dy = deflectionY * scale;
 
-  if (x < bottom_trigger) dx = -1; // move left
-  if (x > top_trigger) dx = 1; // move right
-  if (y > top_trigger) dy = -1; //move up
-  if (y < bottom_trigger) dy = 1; // move down
-
+  if (abs(deflectionX) < deadZone) dx = 0;
+  if (abs(deflectionY) < deadZone) dy = 0;
   if (dx != 0 || dy != 0) {
-    Mouse.move(dx, dy, 0);  // move mouse
+    Mouse.move(dx, dy, 0);
   }
 
   int reading = digitalRead(JOY_SW);
