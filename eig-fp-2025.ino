@@ -33,8 +33,8 @@ void setup() {
   Mouse.end();
   Serial.println("Starting device...");
   //Testing this part first - Darius 
-  Keyboard.deviceName = "name" //you can set any name you want for your device here
-  Keyboard.deviceManufacturer = "Manufactuer" //you can set any name
+  Keyboard.deviceName = "name"; //you can set any name you want for your device here
+  Keyboard.deviceManufacturer = "Manufactuer"; //you can set any name
   Keyboard.begin();
   Mouse.begin();
 }
