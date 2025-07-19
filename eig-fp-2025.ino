@@ -1,79 +1,81 @@
 #include <BleCombo.h>
 
-int PB = 14;   // Change
-int JOY_X = 33, JOY_Y = 4, JOY_SW = 25;  // Change
-int x_value, y_value;                     // Change
+#define PB = 14; 
+#define JOY_X = 33
+#define JOY_Y = 4
+#define JOY_SW = 25; 
+int x_value, y_value;                  
 
-// VCC laser, pb, joystick
-// GND laser, joystick
-// data pb
+// General debounce timing
+unsigned long debounceDelay = 50;  
 
+// Debouncing variables used for the joystick (JOYSW) and black pushbutton (PB)
 int JOY_SW_State = LOW;
 int last_JOY_SW_State = LOW;
 unsigned long lastJOYDebounceTime = 0;
 int PB_State = LOW;
 int last_PB_State = LOW;
 unsigned long lastPBDebounceTime = 0;
-unsigned long debounceDelay = 50;  // 50 ms debounce delay
-// "Klickr 9000."
 
-void setup() {
+
+void setup() { // everything here is called when the esp32 boots up
+  // setting GPIO pins as input for the switch and black pushbutton
   pinMode(PB, INPUT_PULLDOWN);
-
   pinMode(JOY_X, INPUT);
   pinMode(JOY_Y, INPUT);
   pinMode(JOY_SW, INPUT_PULLUP);
 
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(LED_BUILTIN, HIGH); // to indicate that the esp32 has started up
 
-  Serial.begin(921600);
-
-  Keyboard.end();
-  Mouse.end();
+  Serial.begin(921600); 
+  
   Serial.println("Starting device...");
   //Testing this part first - Darius 
   Keyboard.deviceName = "name"; //you can set any name you want for your device here
   Keyboard.deviceManufacturer = "Manufactuer"; //you can set any name
-  Keyboard.begin();
-  Mouse.begin();
+  Keyboard.begin(); // Begins Keyboard, which can be called for any keyboard-related functions
+  Mouse.begin(); // Begins Mouse, which can be called for any mouse-related functions
 }
 
 void loop() {
   // Serial.print("Pushbutton status - ");
   // Serial.println(digitalRead(PB));
-  pushbutton(); // comment out if using wasd
+
+  pushbutton();
   joystick();               
 }
 
 void pushbutton() {
-  int reading = digitalRead(PB);
+  int reading = digitalRead(PB); // reads whether the pushbutton is pressed (True/1) or not (False/0)
 
   if (reading != last_PB_State) {
-    lastPBDebounceTime = millis();  // reset the timer
+    lastPBDebounceTime = millis();  // millis() gives the number of microseconds since program start, basically a measurement of current time
   }
 
-  if ((millis() - lastPBDebounceTime) > debounceDelay) {
+  if ((millis() - lastPBDebounceTime) > debounceDelay) { // checks if button press is more than 50 milliseconds after last button press
     if (reading != PB_State) {
-      PB_State = reading;
-      if (PB_State == HIGH) {
-        Keyboard.write(KEY_ESC);
-        // Keyboard.write(' ');
+      PB_State = reading; 
+      if (PB_State == HIGH) { // checks if button is pressed
+        // use only ONE of the lines below, comment out the other!
+        Keyboard.write(KEY_ESC); // the original code, press escape key
+        // Keyboard.write(' '); // FP3 addon code, presses the spacebar instead
       }
     }
   }
 
-  last_PB_State = reading;
+  last_PB_State = reading; // updates last_PB_state with reading
 }
 
 void joystick() {
+  // swaps x and y values due to the orientation of the joystick
   y_value = analogRead(JOY_X);
   x_value = analogRead(JOY_Y);
   Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
 
   // Mouse or WASD - Choose ONE
   mouse(x_value, y_value);
-  // wasd(x_value, y_value);
+  // wasd(x_value, y_value); // FP3 addon code
 }
 
 // Joystick boundaries
@@ -85,6 +87,7 @@ const int deadZone = 500;
 const float scale = 0.001; // tweak accordingly
 
 void mouse(int x, int y) {
+  //
   int deflectionX = x - x_center;
   int deflectionY = y_center - y;
 
@@ -128,7 +131,8 @@ void wasd(int x, int y) {
   if (y > top_trigger) {
     if (!wPressed) { 
       Keyboard.press(KEY_UP_ARROW); 
-      wPressed = true; }
+      wPressed = true; 
+    }
   } else if (wPressed) {
     Keyboard.release(KEY_UP_ARROW); 
     wPressed = false;
