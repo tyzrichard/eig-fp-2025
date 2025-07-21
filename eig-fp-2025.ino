@@ -1,9 +1,9 @@
 #include <BleCombo.h>
 
-#define PB = 14; 
-#define JOY_X = 33
-#define JOY_Y = 4
-#define JOY_SW = 25; 
+#define PB 14
+#define JOY_X 33
+#define JOY_Y 4
+#define JOY_SW 25 
 int x_value, y_value;                  
 
 // General debounce timing
