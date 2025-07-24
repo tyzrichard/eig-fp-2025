@@ -31,9 +31,11 @@ void setup() { // everything here is called when the esp32 boots up
   Serial.begin(921600); 
   
   Serial.println("Starting device...");
-  //Testing this part first - Darius 
-  Keyboard.deviceName = "name"; //you can set any name you want for your device here
-  Keyboard.deviceManufacturer = "Manufactuer"; //you can set any name
+  
+  // Set the name you want for your device here!
+  Keyboard.deviceName = "name"; 
+  Keyboard.deviceManufacturer = "Engineering Interest Group"; 
+  
   Keyboard.begin(); // Begins Keyboard, which can be called for any keyboard-related functions
   Mouse.begin(); // Begins Mouse, which can be called for any mouse-related functions
 }
@@ -42,6 +44,7 @@ void loop() {
   // Serial.print("Pushbutton status - ");
   // Serial.println(digitalRead(PB));
 
+  // Calls the two functions from below
   pushbutton();
   joystick();               
 }
@@ -73,9 +76,7 @@ void joystick() {
   x_value = analogRead(JOY_Y);
   Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
 
-  // Mouse or WASD - Choose ONE
   mouse(x_value, y_value);
-  // wasd(x_value, y_value); // FP3 addon code
 }
 
 // Joystick boundaries
@@ -87,7 +88,6 @@ const int deadZone = 500;
 const float scale = 0.001; // tweak accordingly
 
 void mouse(int x, int y) {
-  //
   int deflectionX = x - x_center;
   int deflectionY = y_center - y;
 
@@ -100,6 +100,7 @@ void mouse(int x, int y) {
     Mouse.move(dx, dy, 0);
   }
 
+  // Debouncing code for Joystick Button
   int reading = digitalRead(JOY_SW);
 
   if (reading != last_JOY_SW_State) {
@@ -117,78 +118,4 @@ void mouse(int x, int y) {
   }
 
   last_JOY_SW_State = reading;
-}
-
-bool wPressed = false;
-bool aPressed = false;
-bool sPressed = false;
-bool dPressed = false;
-
-void wasd(int x, int y) {
-  bool btn = digitalRead(PB) == HIGH;
-
-  // --- Handle UP ARROW ---
-  if (y > top_trigger) {
-    if (!wPressed) { 
-      Keyboard.press(KEY_UP_ARROW); 
-      wPressed = true; 
-    }
-  } else if (wPressed) {
-    Keyboard.release(KEY_UP_ARROW); 
-    wPressed = false;
-  }
-
-  // --- Handle DOWN ARROW ---
-  if (y < bottom_trigger) {
-    if (!sPressed) { 
-      Keyboard.press(KEY_DOWN_ARROW); 
-      sPressed = true; 
-    }
-  } else if (sPressed) {
-    Keyboard.release(KEY_DOWN_ARROW); 
-    sPressed = false;
-  }
-
-  // --- Handle LEFT ARROW ---
-  if (x < bottom_trigger) {
-    if (!aPressed) { 
-      Keyboard.press(KEY_LEFT_ARROW); 
-      aPressed = true; 
-    }
-  } else if (aPressed) {
-    Keyboard.release(KEY_LEFT_ARROW); 
-    aPressed = false;
-  }
-
-  // --- Handle RIGHT ARROW ---
-  if (x > top_trigger) {
-    if (!dPressed) { 
-      Keyboard.press(KEY_RIGHT_ARROW); 
-      dPressed = true; 
-    }
-  } else if (dPressed) {
-    Keyboard.release(KEY_RIGHT_ARROW); 
-    dPressed = false;
-  }
-
-  // --- Handle Joystick button ---
-  int reading = digitalRead(JOY_SW);
-
-  if (reading != last_JOY_SW_State) {
-    lastJOYDebounceTime = millis();  // reset the timer
-  }
-
-  if ((millis() - lastJOYDebounceTime) > debounceDelay) {
-    if (reading != JOY_SW_State) {
-      JOY_SW_State = reading;
-
-      if (JOY_SW_State == HIGH) {
-        Keyboard.write('c');
-        delay(10);
-      }
-    }
-  }
-  last_JOY_SW_State = reading;
-
-  delay(20); // debounce/polling delay
 }
