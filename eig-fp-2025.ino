@@ -177,7 +177,7 @@ void wasd(int x, int y) {
   int reading = ; // FP3 #5 --> Take readings (digital or analog?) from JOY_SW
 
   if (reading != last_JOY_SW_State) {
-    lastJOYDebounceTime = millis();  // reset the timer
+    // FP3 #6 --> Update lastJOYDebounceTime with the current millis() timing
   }
 
   if ((millis() - lastJOYDebounceTime) > debounceDelay) {
@@ -185,12 +185,11 @@ void wasd(int x, int y) {
       JOY_SW_State = reading;
 
       if (JOY_SW_State == HIGH) {
-        // FP3 #6 --> Write 'c' 
-        delay(10);
+        // FP3 #7 --> Write 'c' 
       }
     }
   }
   last_JOY_SW_State = reading;
 
-  delay(20); // debounce/polling delay
+  // FP3 #8 --> Add a debounce/polling delay of 20ms
 }
