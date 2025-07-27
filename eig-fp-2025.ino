@@ -60,9 +60,9 @@ void pushbutton() {
     if (reading != PB_State) {
       PB_State = reading; 
       if (PB_State == HIGH) { // checks if button is pressed
-        // use only ONE of the lines below, comment out the other!
         Keyboard.write(KEY_ESC); // the original code, press escape key
-        // Keyboard.write(' '); // FP3 addon code, presses the spacebar instead
+        
+        // FP3 #1 --> Press the spacebar
       }
     }
   }
@@ -118,4 +118,79 @@ void mouse(int x, int y) {
   }
 
   last_JOY_SW_State = reading;
+}
+
+bool wPressed = false;
+bool aPressed = false;
+bool sPressed = false;
+bool dPressed = false;
+
+void wasd(int x, int y) {
+  bool btn = digitalRead(PB) == HIGH;
+
+  // --- Handle UP ARROW ---
+  if () { // FP3 #2 --> Finish the if statement to execute is joystick is pushed up
+    if (!wPressed) { 
+      // FP3 #3 --> Hold UP Arrow
+      wPressed = true; 
+    }
+  } else if (wPressed) {
+    // FP3 #3 --> Release UP Arrow
+    wPressed = false;
+  }
+
+  // FP3 #4 --> Got the hang of it yet? Now do the same for the other 3 arrows!
+  // --- Handle DOWN ARROW ---
+  if () { // FP3 #4
+    if (!sPressed) { 
+      // FP3 #4
+      sPressed = true; 
+    }
+  } else if (sPressed) {
+    // FP3 #4
+    sPressed = false;
+  }
+
+  // --- Handle LEFT ARROW ---
+  if () { // FP3 #4
+    if (!aPressed) { 
+      // FP3 #4
+      aPressed = true; 
+    }
+  } else if (aPressed) {
+    // FP3 #4
+    aPressed = false;
+  }
+
+  // --- Handle RIGHT ARROW ---
+  if () { // FP3 #4
+    if (!dPressed) { 
+      // FP3 #4
+      dPressed = true; 
+    }
+  } else if (dPressed) {
+    // FP3 #4
+    dPressed = false;
+  }
+
+  // --- Handle Joystick button ---
+  int reading = ; // FP3 #5 --> Take readings (digital or analog?) from JOY_SW
+
+  if (reading != last_JOY_SW_State) {
+    lastJOYDebounceTime = millis();  // reset the timer
+  }
+
+  if ((millis() - lastJOYDebounceTime) > debounceDelay) {
+    if (reading != JOY_SW_State) {
+      JOY_SW_State = reading;
+
+      if (JOY_SW_State == HIGH) {
+        // FP3 #6 --> Write 'c' 
+        delay(10);
+      }
+    }
+  }
+  last_JOY_SW_State = reading;
+
+  delay(20); // debounce/polling delay
 }
