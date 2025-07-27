@@ -31,9 +31,8 @@ void setup() { // everything here is called when the esp32 boots up
   Serial.begin(921600); 
   
   Serial.println("Starting device...");
-  //Testing this part first - Darius 
   Keyboard.deviceName = "name"; //you can set any name you want for your device here
-  Keyboard.deviceManufacturer = "Manufactuer"; //you can set any name
+  Keyboard.deviceManufacturer = "Manufacturer"; //you can set any name
   Keyboard.begin(); // Begins Keyboard, which can be called for any keyboard-related functions
   Mouse.begin(); // Begins Mouse, which can be called for any mouse-related functions
 }
@@ -71,7 +70,7 @@ void joystick() {
   // swaps x and y values due to the orientation of the joystick
   y_value = analogRead(JOY_X);
   x_value = analogRead(JOY_Y);
-  Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
+  // Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
 
   // Mouse or WASD - Choose ONE
   mouse(x_value, y_value);
