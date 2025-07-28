@@ -185,11 +185,15 @@ void wasd(int x, int y) {
       JOY_SW_State = reading;
 
       if (JOY_SW_State == HIGH) {
+        // Start of write 'c' code
         // FP3 #7 --> Write 'c' 
+        // End of write 'c' code
       }
     }
   }
   last_JOY_SW_State = reading;
 
+  // Start of 20ms polling delay
   // FP3 #8 --> Add a debounce/polling delay of 20ms
+  // End of 20ms polling delay
 }
