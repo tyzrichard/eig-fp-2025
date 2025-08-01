@@ -35,12 +35,12 @@ mouse(x_value, y_value);
 It will look like this:
 ```
 // This is line 63 and 64
-Keyboard.write(KEY_ESC); 
-// Keyboard.write(' '); 
+// Keyboard.write(KEY_ESC); 
+Keyboard.write(' '); 
 
 // And this is line 78 and 79
-mouse(x_value, y_value);
-// wasd(x_value, y_value);
+// mouse(x_value, y_value);
+wasd(x_value, y_value);
 ```
 Remember to upload your code to the ESP32, else its behaviour won't update
 
