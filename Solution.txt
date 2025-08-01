@@ -76,6 +76,7 @@ void joystick() {
   Serial.println("X Value: " + String(x_value) + " | Y Value: " + String(y_value));
 
   mouse(x_value, y_value);
+  // wasd(x_value, y_value);
 }
 
 // Joystick boundaries
