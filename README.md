@@ -14,6 +14,36 @@ It's a valuable hands-on experience that can enrich your portfolio!
 
 🎯 Open to all SOE students & EIG members
 
+## Files in this Github
+- eig-fp-2025.ino is the code template we used in our workshops, note that it is **INCOMPLETE** with parts purposefully left out for participants to fill in.
+- Solution.txt is the file which contains the code for the **COMPLETE** version of the code.
+- README.md is just this bunch of text you're reading (hence readme), for those who have not touched GitHub before
+
+For Solution.txt, you can toggle between two modes: Slides Clicker and Tetris (yes. tetris)
+- To toggle Slides Clicker, uncomment lines 63 and 78 while commenting lines 64 and 79.
+It will look like this:
+'''
+// This is line 63 and 64
+Keyboard.write(KEY_ESC); 
+// Keyboard.write(' '); 
+
+// And this is line 78 and 79
+mouse(x_value, y_value);
+// wasd(x_value, y_value);
+'''
+- To toggle Tetris, uncomment lines 64 and 79 while commenting lines 63 and 78.
+It will look like this:
+'''
+// This is line 63 and 64
+Keyboard.write(KEY_ESC); 
+// Keyboard.write(' '); 
+
+// And this is line 78 and 79
+mouse(x_value, y_value);
+// wasd(x_value, y_value);
+'''
+Remember to upload your code to the ESP32, else its behaviour won't update
+
 ## Pre-Installation
 1. [CP210x USB to UART Bridge VCP Drivers](https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads)
  - This is needed so that you can easily upload code onto your ESP32.  
