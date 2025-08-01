@@ -60,8 +60,8 @@ void pushbutton() {
     if (reading != PB_State) {
       PB_State = reading; 
       if (PB_State == HIGH) { // checks if button is pressed
-        Keyboard.write(KEY_ESC); // the original code, press escape key
-        // Keyboard.write(' '); // FP3 addon code, presses the spacebar instead
+        Keyboard.write(KEY_ESC); 
+        // Keyboard.write(' '); 
       }
     }
   }
