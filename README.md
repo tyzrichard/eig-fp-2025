@@ -22,7 +22,7 @@ It's a valuable hands-on experience that can enrich your portfolio!
 For Solution.txt, you can toggle between two modes: Slides Clicker and Tetris (yes. tetris)
 - To toggle Slides Clicker, uncomment lines 63 and 78 while commenting lines 64 and 79.
 It will look like this:
-```
+```c++
 // This is line 63 and 64
 Keyboard.write(KEY_ESC); 
 // Keyboard.write(' '); 
@@ -33,7 +33,7 @@ mouse(x_value, y_value);
 ```
 - To toggle Tetris, uncomment lines 64 and 79 while commenting lines 63 and 78.
 It will look like this:
-```
+```c++
 // This is line 63 and 64
 // Keyboard.write(KEY_ESC); 
 Keyboard.write(' '); 
