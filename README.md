@@ -22,7 +22,7 @@ It's a valuable hands-on experience that can enrich your portfolio!
 For Solution.txt, you can toggle between two modes: Slides Clicker and Tetris (yes. tetris)
 - To toggle Slides Clicker, uncomment lines 63 and 78 while commenting lines 64 and 79.
 It will look like this:
-'''
+```
 // This is line 63 and 64
 Keyboard.write(KEY_ESC); 
 // Keyboard.write(' '); 
@@ -30,10 +30,10 @@ Keyboard.write(KEY_ESC);
 // And this is line 78 and 79
 mouse(x_value, y_value);
 // wasd(x_value, y_value);
-'''
+```
 - To toggle Tetris, uncomment lines 64 and 79 while commenting lines 63 and 78.
 It will look like this:
-'''
+```
 // This is line 63 and 64
 Keyboard.write(KEY_ESC); 
 // Keyboard.write(' '); 
@@ -41,7 +41,7 @@ Keyboard.write(KEY_ESC);
 // And this is line 78 and 79
 mouse(x_value, y_value);
 // wasd(x_value, y_value);
-'''
+```
 Remember to upload your code to the ESP32, else its behaviour won't update
 
 ## Pre-Installation
